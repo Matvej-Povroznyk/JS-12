@@ -24,18 +24,14 @@ user.premium = false;
 
 console.log(user);
 
-const userKeys = Object.keys(user);
+const userEntries = Object.entries(user);
 
-for (let key of userKeys) {
-  console.log(`${key}:${user[key]}`);
+for (let [key, value] of userEntries) {
+  console.log(`${key}:${value}`);
 }
 
 // 2
-const countProps = (obj) => {
-  const keys = Object.keys(obj);
-
-  return keys.length;
-};
+const countProps = (obj) => Object.keys(obj).length;
 
 console.log(countProps(user)); // O: 4
 
@@ -44,10 +40,10 @@ const findBestEmployee = (employees) => {
   let bestEmployeeName = "";
   let maxTasks = 0;
 
-  const keys = Object.keys(employees);
-  for (const name of keys) {
-    if (employees[name] > maxTasks) {
-      maxTasks = employees[name];
+  const entries = Object.entries(employees);
+  for (const [name, tasks] of entries) {
+    if (tasks > maxTasks) {
+      maxTasks = tasks;
       bestEmployeeName = name;
     }
   }
@@ -79,8 +75,9 @@ const getAllPropValues = (arr, prop) => {
   const values = [];
 
   for (const item of arr) {
-    if (item[prop] !== undefined) {
-      values.push(item[prop]);
+    const { [prop]: value } = item;
+    if (value !== undefined) {
+      values.push(value);
     }
   }
 
@@ -102,9 +99,9 @@ console.log(getAllPropValues(products, "quantity"));
 const calculateTotalPrice = (allProducts, productName) => {
   let totalPrice = 0;
 
-  for (const product of allProducts) {
-    if (product.name === productName) {
-      totalPrice = product.price * product.quantity;
+  for (const { name, price, quantity } of allProducts) {
+    if (name === productName) {
+      totalPrice = price * quantity;
       break;
     }
   }
